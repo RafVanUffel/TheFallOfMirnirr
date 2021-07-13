@@ -1,0 +1,81 @@
+{
+"id": "Maim",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqir/Maim",
+	"modId": "TheFallOfMirnirr",
+	"aiPriority": "-1",
+	"tags": [ "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": { "icon": "claw", "priority": "2", "branchableAbilityType": "standardMelee" },
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints", "actionPoints": "attack" },
+		"missionFeedback": { "orientTo": "target" }
+	},
+	{
+		"template": "ADJACENT_ENEMY",
+		"showAnyway": true,
+		"alwaysSelect": true,
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": "1.6+self.BONUS_RANGE",
+		"lineOfSight": "LIVE_ENEMIES"
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"particles": [
+			{
+				"script": "thrixlInterfuseHit",
+				"setPosition": "target",
+				"setPosition2": "target"
+			}
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/Thrixl/mindWorm",
+			"attackHitCue": "Characters/Heroes/Themed/attackClaw",
+			"attackDodgedCue": "Characters/Weapons/Dagger/weaponDodge",
+			"attackBlockedCue": "Characters/Weapons/Dagger/weaponBlock"
+		},
+		"defenseRollTags": [ "melee" ],
+		"attackStrength": "actionRoll(self.MELEE_ACCURACY)",
+		"applyCover": true,
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Damage",
+					"amount": "((1d4+1)+(((self.PHYSICAL_DAMAGE_BONUS+self.POTENCY)*0.5)*(1+self.theme_thriqir_upgrade)))+self.theme_thriqir_upgrade",
+					"shred": "1",
+					"pierce": "1",
+					"overrideStuntDamage": "2",
+					"onStunt": {
+						"class": "DoAll",
+						"outcomes": [
+							{
+								"class": "Aspects",
+								"target": "defender",
+								"addAspects": [
+									{ "id": "pinned", "value": "2" }
+								]
+							}
+						]
+					}
+				},
+				{
+					"class": "Aspects",
+					"target": "defender",
+					"addAspects": [
+						{ "id": "hobbled", "value": "2" }
+					]
+				}
+			]
+		},
+		"onHitCover": { "class": "Damage", "amount": "attacker.PHYSICAL_DAMAGE_BONUS", "weapon": null }
+	}
+]
+}

@@ -1,0 +1,177 @@
+{
+	"id": "thriqal",
+	"name": "Thriq'al",
+	"blurb": "<self> can describe the absence",
+
+	"forbidCombineWith": ["bear", "wolf", "tree", "fire", "skeleton", "thriqir", "thriqur"],
+
+	"pieces": [
+		{
+			"id": "head",
+			"name": "Thriq'al Head",
+			"blurb": "A curse and a gift, <self> feels capable of manipulating the world.",
+			"slots": ["head"],
+			"extraAspects": ["humanSkin_overrideSkinColor|b7c8ff|86a2ff|5673d1|1.0"],
+			"replaces": ["head"],
+			"effects": ["thriqal_theDream"],
+			"layers": [
+				{
+					"name": "replaceHeadFA_thriqal",
+					"depth": 4000,
+					"rigMode": "female",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadFA_thriqal_tint",
+					"tint": "secondary",
+					"depth": 4001,
+					"rigMode": "female",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadFB_thriqal_tint",
+					"tint": "primary",
+					"depth": 4002,
+					"rigMode": "female",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadFB_thriqal",
+					"depth": 4003,
+					"rigMode": "female",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadMA_thriqal",
+					"depth": 4000,
+					"rigMode": "male",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadMA_thriqal_tint",
+					"tint": "secondary",
+					"depth": 4001,
+					"rigMode": "male",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadMB_thriqal_tint",
+					"tint": "primary",
+					"depth": 4002,
+					"rigMode": "male",
+					"headOffset": true
+				},
+				{
+					"name": "replaceHeadMB_thriqal",
+					"depth": 4003,
+					"rigMode": "male",
+					"headOffset": true
+				}
+			]
+		},
+		{
+			"id": "torso",
+			"name": "Thriq'al Ceremonial Garb",
+			"blurb": "<self> may have taken upon themselves an eldritch imagination, but they look good doing it.",
+			"slots": ["torso"],
+			"replaces": ["torso", "clothes"],
+			"layers": [
+				{
+					"name": "replaceTorso_thriqalA",
+					"depth": 1211
+				},
+				{
+					"name": "replaceTorso_thriqalB_tint",
+					"tint": "primary",
+					"depth": 1213
+				},
+				{
+					"name": "replaceTorso_thriqalC_tint",
+					"tint": "primary",
+					"depth": 57
+				},
+				{
+					"name": "replaceTorso_thriqalB_untinted",
+					"depth": 1214
+				}
+			],
+			"stats": {
+				"WARDING": 1.5,
+
+			}
+		},
+		{
+			"id": "leftLeg",
+			"name": "Thriq'al Leg (L)",
+			"blurb": "<self>'s left leg has been consumed.(By madness)",
+			"slots": ["leftLeg"],
+			"replaces": ["leftLeg"],
+			"layers": [
+				{
+					"name": "replaceLegL_thriqal",
+					"depth": 1101,
+				}
+			],
+			"stats": {
+				"WARDING": 0.3
+				"SPEED": 2.5
+			}
+		},
+		{
+			"id": "rightLeg",
+			"name": "Thriq'al leg (R)",
+			"blurb": "<self>'s right leg is consumed. (By insanity)",
+			"slots": ["rightLeg"],
+			"replaces": ["rightLeg"],
+			"layers": [
+				{
+					"name": "replaceLegR_thriqal",
+					"depth": 1101,
+				}
+			],
+			"stats": {
+				"WARDING": 0.3
+				"SPEED": 2.5
+			}
+		},
+		{
+			"id": "leftArm",
+			"name": "Thriq'al Arm (L)",
+			"blurb": "<self>'s left arm is plated with carapace.",
+			"slots": ["leftArm"],
+			"extraAspects": ["thrixl_buffThrusk"],
+			"replaces": ["leftArm", "leftGrip"],
+			"layers": [
+				{
+					"name": "replaceArmL_thriqal",
+					"depth": 1201,
+				}
+			],
+			"stats": {
+				"ARMOR": 0.3,
+				"WARDING": 1
+
+			}
+		},
+		{
+			"id": "rightArm",
+			"name": "Thriq'al Arm (R)",
+			"blurb": "<self>'s right arm hungers.",
+			"slots": ["rightArm"],
+			"replaces": ["rightArm", "rightGrip"],
+			"effects": ["thriqal_SpawnChrysalis"],
+			"layers": [
+				{
+					"name": "replaceArmR_thriqal",
+					"depth": 1201,
+				}
+			],
+			"stats": {
+				"ARMOR": 0.3,
+				"WARDING": 1
+
+			}
+		}
+
+	]
+}

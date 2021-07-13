@@ -1,0 +1,121 @@
+{
+"id": "thriqal_SpawnChrysalis",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqal/thriqal_SpawnChrysalis",
+	"modId": "TheFallOfMirnirr",
+	"author": "",
+	"aiPriority": "3000",
+	"tags": [ "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": {
+	"icon": "areaMagic",
+	"category": "attackAbility",
+	"priority": "3",
+	"showDescriptionInTooltip": true,
+	"cooldown": "oncePerMission"
+},
+"targets": [
+	{ "template": "SELF" },
+	{
+		"role": "foes",
+		"template": "ANY",
+		"STUB": "Must be foes in sight",
+		"type": "UNIT",
+		"choose": "ALL",
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": "8",
+		"lineOfSight": "TERRAIN_ONLY"
+	},
+	{
+		"role": "target",
+		"template": "TILE",
+		"choose": "ONE_RANDOM_TRUE",
+		"missionFeedback": { "hoverFeedback": "ATTACK_HOVER" },
+		"range": "1.6",
+		"lineOfSight": "LIVE_FIGURES",
+		"tileFilter": "validMoveEnd",
+		"spawnEntitySize": "oneTile"
+	},
+	{
+		"role": "target2",
+		"template": "TILE",
+		"choose": "ONE_RANDOM_TRUE",
+		"missionFeedback": { "hoverFeedback": "ATTACK_HOVER" },
+		"notAlreadyMatchedAs": [ "target" ],
+		"range": "1.6",
+		"lineOfSight": "LIVE_FIGURES",
+		"tileFilter": "validMoveEnd",
+		"spawnEntitySize": "oneTile"
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"defender": null,
+		"attackAnimationType": "interaction",
+		"showAbilityName": "ifEnemy",
+		"particles": [
+			{
+				"script": "thrixlInterfuseTrail",
+				"setPosition": "self",
+				"setPosition2": "target"
+			},
+			{
+				"script": "thrixlInterfuseTrail",
+				"setPosition": "self",
+				"setPosition2": "target2"
+			},
+			{ "script": "interfuseHit", "setPosition": "target", "setPosition2": "target" },
+			{ "script": "interfuseHit", "setPosition": "target2", "setPosition2": "target2" },
+			{
+				"script": "thrixlInterfuseHitSlow",
+				"setPosition": "target",
+				"setPosition2": "target"
+			},
+			{
+				"script": "thrixlInterfuseHitSlow",
+				"setPosition": "target2",
+				"setPosition2": "target2"
+			}
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/Thrixl/mindWorm",
+			"attackHitCue": "Characters/Default/TentacleGrab"
+		},
+		"attackStrength": "100",
+		"always": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Spawn",
+					"target": "target",
+					"addRole": "monster",
+					"createEntity": {
+						"query": { "baseTag": "thrixl_dreamChrysalis" },
+						"setLocation": true
+					}
+				},
+				{
+					"class": "Spawn",
+					"target": "target2",
+					"addRole": "monster",
+					"createEntity": {
+						"query": { "baseTag": "thrixl_dreamChrysalis" },
+						"setLocation": true
+					}
+				},
+				{
+					"class": "Aspects",
+					"target": "monster",
+					"addAspects": [
+						{ "id": "thrixl_hatchWithoutInterfusion", "value": "1" }
+					]
+				}
+			]
+		}
+	}
+]
+}

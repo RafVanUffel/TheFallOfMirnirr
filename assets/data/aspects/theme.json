@@ -1,0 +1,11 @@
+[
+{
+	"modId": "TheFallOfMirnirr",
+	"id": "theme_thriqir_upgrade",
+	"boostType": "ABILITY_MISC",
+	"legacyAbilityChoice": true,
+	"importance": 5,
+	"abilityRequiresOneAspectOf": [ "themePiece_thriqir_leftArm", "themePiece_thriqir_leftArm" ],
+	"info": { "abilityDeckUsage": "upgrade", "abilityDeckIcon": "claw" }
+}
+]

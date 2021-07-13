@@ -1,0 +1,210 @@
+{
+"id": "AbyssalCharge",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqir/AbyssalCharge",
+	"modId": "TheFallOfMirnirr",
+	"aiPriority": "(2000+(30*COUNT.target))-(max((1-COUNT.target),0)*3000)",
+	"tags": [ "okToMarkDone", "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": {
+	"icon": "crush",
+	"priority": "1",
+	"extraUI": { "overrideRangeShown": "8" },
+	"showDescriptionInTooltip": true,
+	"cooldown": "everyOtherTurn"
+},
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints", "actionPoints": "free" },
+		"missionFeedback": { "orientTo": "targetTile" },
+		"aspectValues": [
+			{ "id": "pinned", "forbidden": true }
+		]
+	},
+	{
+		"role": "targetTile",
+		"template": "TILE",
+		"missionFeedback": {
+			"rangeFeedback": "FRIENDLY_EFFECT_RANGE",
+			"suggestionFeedback": "FRIENDLY_EFFECT_SUGGESTION",
+			"hoverFeedback": "PATH_TARGET",
+			"applyRoleFootprint": "self",
+			"showMovementFeedback": true
+		},
+		"aiHints": { "fullInferLookAhead": true },
+		"minRange": "0.9",
+		"range": "8",
+		"lineOfSight": "TERRAIN_AND_GAPS",
+		"tileFilter": "validMoveEndIgnoreScenery",
+		"roleMustFit": "self",
+		"footprintWithinRange": "self"
+	},
+	{
+		"role": "hook",
+		"template": "TILE",
+		"STUB": "All tiles the entity will end up on. (Used to prevent knocking enemies back onto the tile we're moving to)",
+		"choose": "ANY",
+		"range": "0",
+		"relativeToLocation": "targetTile"
+	},
+	{
+		"template": "ADJACENT_ENEMY",
+		"choose": "ANY",
+		"missionFeedback": {
+			"orientTo": "self",
+			"suggestionScript": "figures.attackSuggestion",
+			"hoverScript": "figures.attackHovered",
+			"rangeFeedback": "ATTACK_SUGGESTION",
+			"suggestionFeedback": "ATTACK_SUGGESTION",
+			"hoverFeedback": "ATTACK_HOVER"
+		},
+		"manifold": {
+			"from": "self",
+			"to": "targetTile",
+			"thickness": [ "2", "2" ],
+			"useSourceFootprintForDestination": true
+		},
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": null,
+		"relativeToLocation": "targetTile"
+	},
+	{
+		"role": "volunteer2",
+		"template": "ADJACENT_SCENERY",
+		"choose": "ANY",
+		"missionFeedback": null,
+		"manifold": {
+			"from": "self",
+			"to": "targetTile",
+			"thickness": [ "2", "2" ],
+			"useSourceFootprintForDestination": true
+		},
+		"range": "8"
+	},
+	{
+		"role": "volunteer3",
+		"template": "ADJACENT_SCENERY",
+		"choose": "ANY",
+		"missionFeedback": null,
+		"range": "0",
+		"relativeToLocation": "targetTile"
+	},
+	{
+		"role": "volunteer",
+		"template": "ADJACENT_SCENERY",
+		"choose": "ANY",
+		"fromRoles": [ "volunteer2", "volunteer3" ],
+		"range": null
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"attackAnimationType": "melee",
+		"showAbilityName": "ifEnemy",
+		"timingOverride": {
+			"beforeAnimationTime": "0",
+			"swingTime": "1400",
+			"attackTime": "0",
+			"afterAnimationTime": "200"
+		},
+		"particles": [
+			{
+				"script": "chargeDust",
+				"setPosition": "self",
+				"setPosition2": "targetTile",
+				"delay": -0.7
+			},
+			{
+				"script": "chargeDebris",
+				"setPosition": "self",
+				"setPosition2": "targetTile",
+				"delay": -0.7
+			},
+			{
+				"script": "thrixlTeleport",
+				"setPosition": "self",
+				"setPosition2": "targetTile",
+				"delay": -0.7
+			},
+			{
+				"script": "thrixlInterfuseHit",
+				"setPosition": "target",
+				"setPosition2": "target"
+			}
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/Morthagi/acidJet",
+			"attackHitCue": "Characters/DefaultHuman/Ability_Rock",
+			"attackDodgedCue": "Characters/Weapons/Default/weaponDodge",
+			"attackBlockedCue": "Characters/Weapons/Default/weaponBlock"
+		},
+		"attackerAnimationOverride": "",
+		"cameraSnapToStartPositionOnEnd": false,
+		"defenseRollTags": [ "melee" ],
+		"attackStrength": "self.MELEE_ACCURACY",
+		"separateRolls": true,
+		"always": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "MoveEntity",
+					"directlyToTile": "targetTile",
+					"ignoreEntitiesOnTile": true,
+					"animationType": "charge"
+				},
+				{
+					"class": "ForEach",
+					"STUB": "Destroy scenery",
+					"fromRoles": [ "volunteer" ],
+					"toRole": "scenery",
+					"outcome": {
+						"class": "Damage",
+						"target": "scenery",
+						"amount": "scenery.HEALTH-scenery.INJURY",
+						"type": "TRUE",
+						"showInTooltip": false
+					}
+				}
+			]
+		},
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Damage",
+					"originator": "targetTile",
+					"amount": "(1d3+floor((((self.PHYSICAL_DAMAGE_BONUS+self.POTENCY)/4)*(1+self.theme_thriqir_upgrade))))+self.theme_thriqir_upgrade"
+				},
+				{
+					"class": "Aspects",
+					"addAspects": [
+						{ "id": "hobbled", "value": "1" }
+					]
+				},
+				{
+					"class": "MatchTarget",
+					"abilityTarget": {
+						"template": "TILE",
+						"pathFrom": "self",
+						"pathTo": "defender",
+						"matchSpecial": "knockBackDestination",
+						"relativeTo": "defender",
+						"notAlreadyMatchedAs": [ "hook" ],
+						"range": "1.6",
+						"lineOfSight": "ANY_COVER",
+						"tileFilter": "parentLocationOrValidMoveEnd",
+						"roleMustFit": "defender"
+					}
+				},
+				{ "class": "MoveEntity", "directlyToTile": "focus" },
+				{ "class": "ClearRole", "role": "focus" }
+			]
+		}
+	}
+]
+}

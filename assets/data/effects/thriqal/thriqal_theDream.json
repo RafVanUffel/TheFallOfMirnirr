@@ -1,0 +1,231 @@
+{
+"id": "thriqal_theDream",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqal/thriqal_theDream",
+	"modId": "TheFallOfMirnirr",
+	"author": "",
+	"aiPriority": "1900",
+	"tags": [ "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": {
+	"icon": "magic",
+	"category": "attackAbility",
+	"priority": "18",
+	"onlyShowIfPossibleInCharacterSheet": true
+},
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints", "actionPoints": "attack" }
+	},
+	{
+		"role": "volunteer",
+		"template": "ADJACENT_ENEMY",
+		"choose": "ALL",
+		"showAnyway": true,
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": "(4.6+self.BONUS_RANGE)+(self.POTENCY/2)",
+		"lineOfSight": "LIVE_ENEMIES"
+	}
+],
+"outcomes": [
+	{
+		"class": "MatchTarget",
+		"abilityTarget": {
+			"template": "ADJACENT_ENEMY",
+			"choose": "ONE_RANDOM_TRUE",
+			"showAnyway": true,
+			"alwaysSelect": true,
+			"aspects": [ "HOSTILE_TARGET", "alive" ],
+			"range": "(4.6+self.BONUS_RANGE)+(self.POTENCY/2)",
+			"lineOfSight": "LIVE_ENEMIES"
+		}
+	},
+	{
+		"class": "AttackRoll",
+		"stopBlockingTime": "afterHitAnimation",
+		"particles": [
+			{
+				"script": "thrixlRangedAttack",
+				"setPosition": "self",
+				"setPosition2": "target"
+			},
+			{
+				"script": "thrixlInterfuseHit",
+				"setPosition": "target",
+				"setPosition2": "target"
+			},
+			{
+				"script": "thrixlInterfuseHitSlow",
+				"setPosition": "target",
+				"setPosition2": "target"
+			},
+			{
+				"script": "thrixlTeleport",
+				"setPosition": "self",
+				"setPosition2": "self",
+				"delay": -1
+			}
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/Thrixl/mindWorm",
+			"attackHitCue": "Characters/DefaultHuman/Magic_FireHit",
+			"attackDodgedCue": "Characters/DefaultHuman/Magic_FireMiss",
+			"attackBlockedCue": "Characters/DefaultHuman/Magic_FireMiss"
+		},
+		"defenseRollTags": [ "range" ],
+		"attackStrength": "actionRoll(self.RANGE_ACCURACY)",
+		"wield": "fromWeapon",
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Damage",
+					"amount": "((1d3+1)+(((self.PHYSICAL_DAMAGE_BONUS+self.POTENCY)*0.5)*(1+self.theme_thriqal_upgrade)))+self.theme_thriqal_upgrade",
+					"type": "MAGIC",
+					"pierce": "1",
+					"overrideStuntDamage": "4",
+					"numDefenders": "3"
+				}
+			]
+		}
+	},
+	{
+		"class": "MatchTarget",
+		"abilityTarget": {
+			"role": "target2",
+			"template": "ADJACENT_ENEMY",
+			"choose": "ONE_RANDOM_TRUE",
+			"showAnyway": true,
+			"alwaysSelect": true,
+			"aspects": [ "HOSTILE_TARGET", "alive" ],
+			"range": "(4.6+self.BONUS_RANGE)+(self.POTENCY/2)",
+			"lineOfSight": "LIVE_ENEMIES"
+		}
+	},
+	{
+		"class": "IfRolesArePresent",
+		"rolesArePresent": [ "target2" ],
+		"then": {
+			"class": "AttackRoll",
+			"defender": "target2",
+			"stopBlockingTime": "afterHitAnimation",
+			"particles": [
+				{
+					"script": "thrixlRangedAttack",
+					"setPosition": "self",
+					"setPosition2": "target2"
+				},
+				{
+					"script": "thrixlInterfuseHit",
+					"setPosition": "target2",
+					"setPosition2": "target2"
+				},
+				{
+					"script": "thrixlInterfuseHitSlow",
+					"setPosition": "target2",
+					"setPosition2": "target2"
+				},
+				{
+					"script": "thrixlTeleport",
+					"setPosition": "self",
+					"setPosition2": "self",
+					"delay": -1
+				}
+			],
+			"audioOverride": {
+				"attackStartCue": "Characters/Thrixl/mindWorm",
+				"attackHitCue": "Characters/DefaultHuman/Magic_FireHit",
+				"attackDodgedCue": "Characters/DefaultHuman/Magic_FireMiss",
+				"attackBlockedCue": "Characters/DefaultHuman/Magic_FireMiss"
+			},
+			"defenseRollTags": [ "range" ],
+			"attackStrength": "actionRoll(self.RANGE_ACCURACY)",
+			"wield": "fromWeapon",
+			"onHit": {
+				"class": "DoAll",
+				"outcomes": [
+					{
+						"class": "Damage",
+						"amount": "((1d3+1)+(((self.PHYSICAL_DAMAGE_BONUS+self.POTENCY)*0.5)*(1+self.theme_thriqal_upgrade)))+self.theme_thriqal_upgrade",
+						"type": "MAGIC",
+						"pierce": "1",
+						"overrideStuntDamage": "4",
+						"numDefenders": "3"
+					}
+				]
+			}
+		}
+	},
+	{
+		"class": "MatchTarget",
+		"abilityTarget": {
+			"role": "target3",
+			"template": "ADJACENT_ENEMY",
+			"choose": "ONE_RANDOM_TRUE",
+			"showAnyway": true,
+			"alwaysSelect": true,
+			"aspects": [ "HOSTILE_TARGET", "alive" ],
+			"range": "(4.6+self.BONUS_RANGE)+(self.POTENCY/2)",
+			"lineOfSight": "LIVE_ENEMIES"
+		}
+	},
+	{
+		"class": "IfRolesArePresent",
+		"rolesArePresent": [ "target3" ],
+		"then": {
+			"class": "AttackRoll",
+			"defender": "target3",
+			"stopBlockingTime": "afterHitAnimation",
+			"particles": [
+				{
+					"script": "thrixlRangedAttack",
+					"setPosition": "self",
+					"setPosition2": "target3"
+				},
+				{
+					"script": "thrixlInterfuseHit",
+					"setPosition": "target3",
+					"setPosition2": "target3"
+				},
+				{
+					"script": "thrixlInterfuseHitSlow",
+					"setPosition": "target3",
+					"setPosition2": "target3"
+				},
+				{
+					"script": "thrixlTeleport",
+					"setPosition": "self",
+					"setPosition2": "self",
+					"delay": -1
+				}
+			],
+			"audioOverride": {
+				"attackStartCue": "Characters/Thrixl/mindWorm",
+				"attackHitCue": "Characters/DefaultHuman/Magic_FireHit",
+				"attackDodgedCue": "Characters/DefaultHuman/Magic_FireMiss",
+				"attackBlockedCue": "Characters/DefaultHuman/Magic_FireMiss"
+			},
+			"defenseRollTags": [ "range" ],
+			"attackStrength": "actionRoll(self.RANGE_ACCURACY)",
+			"wield": "fromWeapon",
+			"onHit": {
+				"class": "DoAll",
+				"outcomes": [
+					{
+						"class": "Damage",
+						"amount": "((1d3+1)+(((self.PHYSICAL_DAMAGE_BONUS+self.POTENCY)*0.5)*(1+self.theme_thriqal_upgrade)))+self.theme_thriqal_upgrade",
+						"type": "MAGIC",
+						"pierce": "1",
+						"overrideStuntDamage": "4",
+						"numDefenders": "3"
+					}
+				]
+			}
+		}
+	}
+]
+}

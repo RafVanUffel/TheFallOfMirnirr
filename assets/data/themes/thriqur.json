@@ -1,0 +1,132 @@
+{
+	"id": "thriqur",
+	"name": "Thriq'ür",
+	"blurb": "<self> has taken on the powers of the Thriq'ür, sacrificing regality for functionality and glorious purpose.",
+
+	"forbidCombineWith": ["bear", "wolf", "tree", "fire", "skeleton", "thriqal", "thriqir"],
+
+	"pieces": [
+		{
+			"id": "head",
+			"name": "Thriq'ür Head",
+			"blurb": "A curse and a gift, <self> feels capable of manipulating the world.",
+			"slots": ["head"],
+			"extraAspects": ["humanSkin_overrideSkinColor|b7c8ff|86a2ff|5673d1|1.0"],
+			"layers": [
+				{
+					"name": "face_thriqirMandiblesMA",
+					"depth": 4250,
+					"headOffset": true,
+					"rigMode": "maleHead"
+				},
+				{
+					"name": "face_thriqirMandiblesMB",
+					"depth": 57,
+					"headOffset": true,
+					"rigMode": "maleHead"
+				},
+				{
+					"name": "face_thriqirMandiblesFA",
+					"depth": 4250,
+					"headOffset": true,
+					"rigMode": "femaleHead"
+				},
+				{
+					"name": "face_thriqirMandiblesFB",
+					"depth": 57,
+					"headOffset": true,
+					"rigMode": "femaleHead"
+				}
+			],
+			"effects": ["ThriqirInterfuse"]
+		},
+		{
+			"id": "torso",
+			"name": "Thriq'ür Carapace",
+			"blurb": "<self> has accepted their fate",
+			"slots": ["torso"],
+			"replaces": ["torso", "clothes"],
+			"layers": [
+				{
+					"name": "replaceTorso_thriqirA",
+					"depth": 1211
+				},
+				{
+					"name": "replaceTorso_thriqirA_tint",
+					"depth": 1213
+				},
+				{
+					"name": "replaceTorso_thriqirB_tint",
+					"tint": "primary",
+					"depth": 1214
+				},
+				{
+					"name": "replaceTorso_thriqirB",
+					"depth": 1215
+				}
+			],
+			"stats": {
+				"BLOCK": 15,
+
+			}
+		},
+		{
+			"id": "leftLeg",
+			"name": "Thriq'ür Leg (L)",
+			"blurb": "<self>'s left leg has been consumed.(By madness)",
+			"slots": ["leftLeg"],
+			"replaces": ["leftLeg"],
+			"layers": [
+				{
+					"name": "replaceLegL_thriqir",
+					"depth": 1101,
+				}
+			],
+			"stats": {
+				"ARMOR": 0.6,
+				"WARDING": 0.3
+				"SPEED": 2
+			},
+			"extraAspects": ["stoneLegsSound"]
+		},
+		{
+			"id": "rightLeg",
+			"name": "Thriq'ür leg (R)",
+			"blurb": "<self>'s right leg is consumed. (By insanity)",
+			"slots": ["rightLeg"],
+			"replaces": ["rightLeg"],
+			"layers": [
+				{
+					"name": "replaceLegR_thriqir",
+					"depth": 1101,
+				}
+			],
+			"stats": {
+				"ARMOR": 0.6,
+				"WARDING": 0.3
+				"SPEED": 2
+			},
+			"extraAspects": ["stoneLegsSound"]
+		},
+		{
+			"id": "leftArm",
+			"name": "Thriq'ür Arms (L&R)",
+			"blurb": "<self>'s arms have been molded into implements of pain.",
+			"slots": ["leftArm"],
+			"replaces": ["leftArm", "leftGrip", "rightArm", "rightGrip"],
+			"effects": ["Maim"],
+			"layers": [
+				{
+					"name": "replaceArmL_thriqir",
+					"depth": 1201,
+				}
+			],
+			"stats": {
+				"ARMOR": 0.6,
+				"WARDING": 0.3
+
+			}
+		}
+
+	]
+}

@@ -1,0 +1,117 @@
+{
+"id": "ThriqirInterfuse",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqir/ThriqirInterfuse",
+	"modId": "TheFallOfMirnirr",
+	"tags": [ "sneaky", "okToMarkDone", "interfuse" ]
+},
+"type": "ABILITY",
+"verb": "MANEUVER",
+"ability": {
+	"icon": "interfuse",
+	"category": "neutralAbility",
+	"priority": "90",
+	"overrideOverlayType": "interfuse"
+},
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints" },
+		"missionFeedback": { "orientTo": "target" },
+		"aspectValues": [
+			{
+				"id": "interfused",
+				"maxValue": "(((mystic*2)+numExtraInterfusions)+(mysticDeck_openmind*(1+floor((POTENCY/3)))))-1"
+			}
+		]
+	},
+	{
+		"role": "fire",
+		"template": "ADJACENT_FIRE",
+		"choose": "ANY",
+		"missionFeedback": { "suggestionFeedback": "FRIENDLY_EFFECT_SUGGESTION" },
+		"aspectValues": [
+			{ "id": "interfusedFire", "forbidden": true }
+		],
+		"range": "(6.6+self.BONUS_RANGE)+(self.mysticDeck_openmind_upgrade*1.6)",
+		"lineOfSight": "TERRAIN_ONLY"
+	},
+	{
+		"role": "scenery",
+		"template": "ADJACENT_SCENERY",
+		"choose": "ANY",
+		"missionFeedback": {
+			"rangeFeedback": "FRIENDLY_EFFECT_RANGE",
+			"suggestionFeedback": "FRIENDLY_EFFECT_SUGGESTION"
+		},
+		"aspectValues": [
+			{ "id": "interfusedScenery", "forbidden": true }
+		],
+		"range": "(6.6+self.BONUS_RANGE)+(self.mysticDeck_openmind_upgrade*1.6)",
+		"lineOfSight": "TERRAIN_ONLY"
+	},
+	{
+		"template": "ANY",
+		"showAnyway": true,
+		"alwaysSelect": true,
+		"missionFeedback": {
+			"suggestionScript": "figures.abilitySelectOption",
+			"hoverScript": "figures.abilitySelectHover",
+			"suggestionFeedback": "FRIENDLY_EFFECT_SUGGESTION",
+			"hoverFeedback": "FRIENDLY_EFFECT_HOVER",
+			"feedbackSource": "self"
+		},
+		"fromRoles": [ "fire", "scenery" ]
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"defender": null,
+		"intermediateRole": "target",
+		"attackAnimationType": "magic",
+		"showAbilityName": "ifEnemy",
+		"particles": [
+			{
+				"script": "thrixlInterfuseTrail",
+				"setPosition": "self",
+				"setPosition2": "target",
+				"delay": -0.4
+			},
+			{ "script": "thrixlInterfuseHit", "setPosition": "target" },
+			{ "script": "thrixlInterfuseHitSlow", "setPosition": "target" }
+		],
+		"audioOverride": { "attackInterfusionStartCue": "Characters/Default/Ability_Interfuse" },
+		"always": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Aspects",
+					"target": "target",
+					"addAspects": [
+						{
+							"id": "interfusedWithMystic",
+							"value": "1",
+							"merge": "max",
+							"inRelationTo": "self"
+						},
+						{ "id": "interfusedWithHuman", "value": "1", "merge": "max" }
+					]
+				},
+				{
+					"class": "Aspects",
+					"addAspects": [
+						{
+							"id": "interfusedWithEntity",
+							"value": "1",
+							"merge": "max",
+							"inRelationTo": "target"
+						}
+					]
+				}
+			]
+		}
+	}
+]
+}

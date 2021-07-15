@@ -22,7 +22,6 @@
 	{
 		"role": "foes",
 		"template": "ANY",
-		"STUB": "Must be foes in sight",
 		"type": "UNIT",
 		"choose": "ALL",
 		"aspects": [ "HOSTILE_TARGET", "alive" ],

@@ -38,7 +38,7 @@
 					"rigMode": "femaleHead"
 				}
 			],
-			"effects": ["ThriqirInterfuse"]
+			"effects": ["ThriqirInterfuse", "thriqur_heaveAcid"]
 		},
 		{
 			"id": "torso",
@@ -48,7 +48,7 @@
 			"replaces": ["torso", "clothes"],
 			"layers": [
 				{
-					"name": "replaceTorso_thriqirA",
+					"name": "replaceTorso_thriqurA",
 					"depth": 1211
 				},
 				{
@@ -78,7 +78,7 @@
 			"replaces": ["leftLeg"],
 			"layers": [
 				{
-					"name": "replaceLegL_thriqir",
+					"name": "replaceLegL_thriqur",
 					"depth": 1101,
 				}
 			],
@@ -97,7 +97,7 @@
 			"replaces": ["rightLeg"],
 			"layers": [
 				{
-					"name": "replaceLegR_thriqir",
+					"name": "replaceLegR_thriqur",
 					"depth": 1101,
 				}
 			],
@@ -112,13 +112,18 @@
 			"id": "leftArm",
 			"name": "Thriq'ür Arms (L&R)",
 			"blurb": "<self>'s arms have been molded into implements of pain.",
-			"slots": ["leftArm"],
+			"slots": ["leftArm", "rightArm"],
 			"replaces": ["leftArm", "leftGrip", "rightArm", "rightGrip"],
-			"effects": ["Maim"],
+			"effects": ["thriqur_nightmareLeap", "thriqur_rend"],
 			"layers": [
 				{
-					"name": "replaceArmL_thriqir",
+					"name": "replaceArmL_thriqur",
 					"depth": 1201,
+				},
+				{
+					"name": "replaceArmL_thriqurB",
+					"tint": "primary",
+					"depth": 1214
 				}
 			],
 			"stats": {

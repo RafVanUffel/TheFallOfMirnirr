@@ -1,0 +1,128 @@
+{
+"id": "thriqur_nightmareLeap",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqur/thriqur_nightmareLeap",
+	"modId": "TheFallOfMirnirr",
+	"author": "",
+	"aiPriority": "(2000+(30*COUNT.target))-(max((1-COUNT.target),0)*3000)",
+	"tags": [ "okToMarkDone", "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": {
+	"icon": "crush",
+	"priority": "1",
+	"extraUI": { "overrideRangeShown": "8" },
+	"showDescriptionInTooltip": true,
+	"cooldown": "oncePerTurn"
+},
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints" },
+		"missionFeedback": { "orientTo": "target" }
+	},
+	{
+		"template": "ADJACENT_ENEMY",
+		"showAnyway": true,
+		"alwaysSelect": true,
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": "8",
+		"lineOfSight": "LIVE_ENEMIES"
+	},
+	{
+		"role": "targetTile",
+		"template": "TILE",
+		"choose": "ONE_CLOSEST",
+		"relativeTo": "target",
+		"minRange": "1",
+		"range": "1"
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"attackAnimationType": "none",
+		"stopBlockingTime": "afterHitAnimation",
+		"minimumBlockTime": "450",
+		"timingOverride": { "swingTime": "500" },
+		"particles": [
+			{
+				"script": "chargeDust",
+				"setPosition": "self",
+				"setPosition2": "self",
+				"delay": -0.7
+			},
+			{
+				"script": "thrixlInterfuseHitSlow",
+				"setPosition": "targetTile",
+				"setPosition2": "targetTile"
+			}
+		],
+		"always": {
+			"class": "MoveEntity",
+			"target": "self",
+			"directlyToTile": "targetTile",
+			"animationType": "leap"
+		}
+	},
+	{
+		"class": "AttackRoll",
+		"particles": [
+			{
+				"script": "thrixlInterfuseHit",
+				"setPosition": "target",
+				"setPosition2": "target"
+			},
+			{ "script": "splatterGorgon", "setPosition": "target", "setPosition2": "target" },
+			{
+				"script": "projectileTrailDragonbreath",
+				"setPosition": "target",
+				"setPosition2": "target"
+			},
+			{ "script": "acidJet", "setPosition": "target", "setPosition2": "target" }
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/Thrixl/mindWorm",
+			"attackHitCue": "Characters/Heroes/Themed/attackClaw",
+			"attackDodgedCue": "Characters/Weapons/Dagger/weaponDodge",
+			"attackBlockedCue": "Characters/Weapons/Dagger/weaponBlock"
+		},
+		"defenseRollTags": [ "melee" ],
+		"attackStrength": "actionRoll(self.MELEE_ACCURACY)",
+		"applyCover": true,
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Damage",
+					"amount": "1",
+					"pierce": "1",
+					"overrideStuntDamage": "2",
+					"onStunt": {
+						"class": "DoAll",
+						"outcomes": [
+							{
+								"class": "Aspects",
+								"target": "defender",
+								"addAspects": [
+									{ "id": "poisoned", "value": "2" }
+								]
+							}
+						]
+					}
+				},
+				{
+					"class": "Aspects",
+					"target": "defender",
+					"addAspects": [
+						{ "id": "poisoned", "value": "2" }
+					]
+				}
+			]
+		},
+		"onHitCover": { "class": "Damage", "amount": "attacker.PHYSICAL_DAMAGE_BONUS", "weapon": null }
+	}
+]
+}

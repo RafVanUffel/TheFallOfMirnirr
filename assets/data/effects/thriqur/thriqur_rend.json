@@ -1,0 +1,125 @@
+{
+"id": "thriqur_rend",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqur/thriqur_rend",
+	"modId": "TheFallOfMirnirr",
+	"author": "",
+	"aiPriority": "-1",
+	"tags": [ "melee" ]
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": { "icon": "claw", "priority": "2", "branchableAbilityType": "standardMelee" },
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints", "actionPoints": "attack" }
+	},
+	{
+		"role": "volunteer",
+		"template": "ADJACENT_ENEMY",
+		"choose": "ALL",
+		"showAnyway": true,
+		"aspects": [ "HOSTILE_TARGET", "alive" ],
+		"range": "1.6+self.BONUS_RANGE",
+		"lineOfSight": "LIVE_ENEMIES"
+	}
+],
+"outcomes": [
+	{
+		"class": "MatchTarget",
+		"abilityTarget": {
+			"template": "ADJACENT_ENEMY",
+			"choose": "ONE_RANDOM_TRUE",
+			"showAnyway": true,
+			"alwaysSelect": true,
+			"aspects": [ "HOSTILE_TARGET", "alive" ],
+			"range": "1.6+self.BONUS_RANGE",
+			"lineOfSight": "LIVE_ENEMIES"
+		}
+	},
+	{
+		"class": "AttackRoll",
+		"stopBlockingTime": "afterHitAnimation",
+		"audioOverride": {
+			"attackStartCue": "Characters/DefaultHuman/WolfHead_Attack",
+			"attackHitCue": "Characters/Heroes/Themed/attackClaw",
+			"attackDodgedCue": "Characters/Weapons/Dagger/weaponDodge",
+			"attackBlockedCue": "Characters/Weapons/Dagger/weaponBlock"
+		},
+		"defenseRollTags": [ "melee" ],
+		"attackStrength": "self.MELEE_ACCURACY",
+		"wield": "fromWeapon",
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Damage",
+					"amount": "1",
+					"pierce": "1",
+					"overrideStuntDamage": "4",
+					"numDefenders": "3"
+				},
+				{
+					"class": "Aspects",
+					"target": "target",
+					"addAspects": [
+						{ "id": "poisoned", "value": "1+floor((attacker.POTENCY/3))" }
+					]
+				}
+			]
+		}
+	},
+	{
+		"class": "MatchTarget",
+		"abilityTarget": {
+			"role": "target2",
+			"template": "ADJACENT_ENEMY",
+			"choose": "ONE_RANDOM_TRUE",
+			"showAnyway": true,
+			"alwaysSelect": true,
+			"aspects": [ "HOSTILE_TARGET", "alive" ],
+			"range": "1.6+self.BONUS_RANGE",
+			"lineOfSight": "LIVE_ENEMIES"
+		}
+	},
+	{
+		"class": "IfRolesArePresent",
+		"rolesArePresent": [ "target2" ],
+		"then": {
+			"class": "AttackRoll",
+			"defender": "target2",
+			"stopBlockingTime": "afterHitAnimation",
+			"audioOverride": {
+				"attackStartCue": "Characters/DefaultHuman/WolfHead_Attack",
+				"attackHitCue": "Characters/Heroes/Themed/attackClaw",
+				"attackDodgedCue": "Characters/Weapons/Dagger/weaponDodge",
+				"attackBlockedCue": "Characters/Weapons/Dagger/weaponBlock"
+			},
+			"defenseRollTags": [ "melee" ],
+			"attackStrength": "self.MELEE_ACCURACY",
+			"wield": "fromWeapon",
+			"onHit": {
+				"class": "DoAll",
+				"outcomes": [
+					{
+						"class": "Damage",
+						"amount": "1",
+						"pierce": "1",
+						"overrideStuntDamage": "4",
+						"numDefenders": "3"
+					},
+					{
+						"class": "Aspects",
+						"target": "target2",
+						"addAspects": [
+							{ "id": "poisoned", "value": "1+floor((attacker.POTENCY/3))" }
+						]
+					}
+				]
+			}
+		}
+	}
+]
+}

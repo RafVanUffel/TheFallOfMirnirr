@@ -1,0 +1,103 @@
+{
+"id": "thriqur_heaveAcid",
+"info": {
+	"dataVersion": 1,
+	"sourceFile": "thriqur/thriqur_heaveAcid",
+	"modId": "TheFallOfMirnirr",
+	"author": "",
+	"aiPriority": "2050+(10*(COUNT.target-2))"
+},
+"type": "ABILITY",
+"verb": "ATTACK",
+"ability": {
+	"icon": "areaMagic",
+	"category": "attackAbility",
+	"strictlyBetterThan": [ "monsterRanged" ],
+	"priority": "1",
+	"extraUI": { "overrideRangeShown": "7" },
+	"showDescriptionInTooltip": true,
+	"cooldown": "everyOtherTurn"
+},
+"targets": [
+	{
+		"template": "SELF",
+		"cost": { "class": "ActionPoints" },
+		"showAnyway": true,
+		"missionFeedback": { "orientTo": "target" }
+	},
+	{
+		"template": "TILE",
+		"aiHints": { "fullInferLookAhead": true },
+		"range": "7"
+	},
+	{
+		"role": "volunteer",
+		"template": "TILE",
+		"choose": "ANY",
+		"missionFeedback": { "hoverFeedback": "ATTACK_SUGGESTION" },
+		"manifold": {
+			"from": "self",
+			"to": "focus",
+			"thickness": [ "1", "4", "6" ],
+			"excludeSource": true
+		},
+		"range": null,
+		"lineOfSight": "ANY_SCENERY_IGNORE_ENEMIES",
+		"tileFilter": "floorForbidScenery"
+	},
+	{
+		"template": "UNIT_AT_TILE",
+		"choose": "ALL",
+		"missionFeedback": { "hoverFeedback": "ATTACK_HOVER" },
+		"manifold": {
+			"from": "self",
+			"to": "focus",
+			"thickness": [ "1", "4", "6" ],
+			"excludeSource": true
+		},
+		"aspectValues": [
+			{ "id": "ENEMY", "relativeTo": "self" }
+		],
+		"range": null,
+		"lineOfSight": "ANY_SCENERY_IGNORE_ENEMIES"
+	}
+],
+"outcomes": [
+	{
+		"class": "AttackRoll",
+		"showAbilityName": "ifEnemy",
+		"stopBlockingTime": "afterHitAnimation",
+		"particles": [
+			{
+				"script": "Dragonbreath2",
+				"setPosition": "self",
+				"setPosition2": "target",
+				"delay": -0.3
+			},
+			{
+				"script": "projectileTrailDragonbreath",
+				"setPosition": "self",
+				"setPosition2": "volunteer",
+				"delay": -0.2
+			}
+		],
+		"audioOverride": {
+			"attackStartCue": "Characters/DefaultHuman/Magic_FireMiss",
+			"attackHitCue": "Characters/DefaultHuman/Magic_FireHit"
+		},
+		"defenseRollTags": [ "range" ],
+		"attackStrength": "self.RANGE_ACCURACY",
+		"onHit": {
+			"class": "DoAll",
+			"outcomes": [
+				{
+					"class": "Aspects",
+					"addAspects": [
+						{ "id": "poisoned", "value": "1" }
+					]
+				}
+			]
+		}
+	}
+]
+}
